@@ -119,17 +119,16 @@ const TapRating: React.FunctionComponent<TapRatingProps> =
          reviewSize = 25,
          ...props
      }) => {
-        const [position, setPosition] = useState<number>(props.defaultRating);
+        const [position, setPosition] = useState<number>(defaultRating);
 
         useEffect(() => {
-            const {defaultRating} = props;
 
             if (defaultRating === null || defaultRating === undefined) {
                 setPosition(3);
             } else {
                 setPosition(defaultRating);
             }
-        }, [props.defaultRating]);
+        }, [defaultRating]);
 
         const renderStars = (rating_array) => {
             return _.map(rating_array, (star) => {
