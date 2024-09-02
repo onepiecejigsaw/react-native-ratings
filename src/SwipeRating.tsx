@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import times from "lodash/times";
 
 import {
@@ -52,8 +52,8 @@ const fractionsType: any = (props, propName, componentName) => {
       return value >= 0 && value <= 20
         ? null
         : new Error(
-            `\`${propName}\` in \`${componentName}\` must be between 0 and 20`
-          );
+          `\`${propName}\` in \`${componentName}\` must be between 0 and 20`
+        );
     }
 
     return new Error(
@@ -196,20 +196,22 @@ export default class SwipeRating extends Component<
   SwipeRatingProps,
   SwipeRatingState
 > {
-  static defaultProps = {
-    type: "star",
-    ratingImage: STAR_IMAGE,
-    ratingColor: "#f1c40f",
-    ratingBackgroundColor: "white",
-    ratingCount: 5,
-    showReadOnlyText: true,
-    imageSize: 40,
-    minValue: 0,
-    jumpValue: 0,
-  };
   ratingRef: any;
 
-  constructor(props) {
+  constructor(overrideProps) {
+    const props = {
+      type: "star",
+      ratingImage: STAR_IMAGE,
+      ratingColor: "#f1c40f",
+      ratingBackgroundColor: "white",
+      ratingCount: 5,
+      showReadOnlyText: true,
+      imageSize: 40,
+      minValue: 0,
+      jumpValue: 0,
+      ...overrideProps
+    }
+
     super(props);
     const { onStartRating, onSwipeRating, onFinishRating, fractions } =
       this.props;
@@ -221,9 +223,9 @@ export default class SwipeRating extends Component<
         const newPosition = new Animated.ValueXY();
         const tapPositionX = gesture.x0 - this.state.centerX + gesture.dx;
 
-        newPosition.setValue({ x: tapPositionX, y: 0 });
+        newPosition.setValue({x: tapPositionX, y: 0});
         if (this.state.isComponentMounted) {
-          this.setState({ position: newPosition, value: tapPositionX });
+          this.setState({position: newPosition, value: tapPositionX});
           const rating = this.getCurrentRating(tapPositionX);
 
           if (typeof onStartRating === "function") {
@@ -235,9 +237,9 @@ export default class SwipeRating extends Component<
         const newPosition = new Animated.ValueXY();
         const tapPositionX = gesture.x0 - this.state.centerX + gesture.dx;
 
-        newPosition.setValue({ x: tapPositionX, y: 0 });
+        newPosition.setValue({x: tapPositionX, y: 0});
         if (this.state.isComponentMounted) {
-          this.setState({ position: newPosition, value: tapPositionX });
+          this.setState({position: newPosition, value: tapPositionX});
           const rating = this.getCurrentRating(tapPositionX);
 
           if (typeof onSwipeRating === "function") {
@@ -270,7 +272,7 @@ export default class SwipeRating extends Component<
 
   componentDidMount() {
     try {
-      this.setState({ display: true, isComponentMounted: true }, () =>
+      this.setState({display: true, isComponentMounted: true}, () =>
         this.setCurrentRating(this.props.startingValue)
       );
     } catch (err) {
@@ -298,10 +300,10 @@ export default class SwipeRating extends Component<
   }
 
   getPrimaryViewStyle() {
-    const { position } = this.state;
-    const { imageSize, ratingCount, type } = this.props;
+    const {position} = this.state;
+    const {imageSize, ratingCount, type} = this.props;
 
-    const { color } = TYPES[type];
+    const {color} = TYPES[type];
 
     const width = position.x.interpolate(
       {
@@ -330,10 +332,10 @@ export default class SwipeRating extends Component<
   }
 
   getSecondaryViewStyle() {
-    const { position } = this.state;
-    const { imageSize, ratingCount, type } = this.props;
+    const {position} = this.state;
+    const {imageSize, ratingCount, type} = this.props;
 
-    const { backgroundColor } = TYPES[type];
+    const {backgroundColor} = TYPES[type];
 
     const width = position.x.interpolate(
       {
@@ -362,14 +364,14 @@ export default class SwipeRating extends Component<
   }
 
   renderRatings() {
-    const { imageSize, ratingCount, type, tintColor } = this.props;
-    const { source } = TYPES[type];
+    const {imageSize, ratingCount, type, tintColor} = this.props;
+    const {source} = TYPES[type];
 
     return times(ratingCount, (index) => (
       <View key={index} style={styles.starContainer}>
         <Image
           source={source}
-          style={{ width: imageSize, height: imageSize, tintColor }}
+          style={{width: imageSize, height: imageSize, tintColor}}
         />
       </View>
     ));
@@ -377,7 +379,7 @@ export default class SwipeRating extends Component<
 
   // eslint-disable-next-line max-statements
   getCurrentRating(value) {
-    const { fractions, imageSize, ratingCount } = this.props;
+    const {fractions, imageSize, ratingCount} = this.props;
 
     const startingValue = ratingCount / 2;
 
@@ -414,7 +416,7 @@ export default class SwipeRating extends Component<
 
   // eslint-disable-next-line max-statements
   setCurrentRating(rating) {
-    const { imageSize, ratingCount } = this.props;
+    const {imageSize, ratingCount} = this.props;
 
     // `initialRating` corresponds to `startingValue` in the getter. Naming it
     // Differently here avoids confusion with `value` below.
@@ -434,29 +436,29 @@ export default class SwipeRating extends Component<
 
     const newPosition = new Animated.ValueXY();
 
-    newPosition.setValue({ x: value, y: 0 });
+    newPosition.setValue({x: value, y: 0});
     if (this.state.isComponentMounted) {
-      this.setState({ position: newPosition, value });
+      this.setState({position: newPosition, value});
     }
   }
 
   displayCurrentRating() {
-    const { ratingCount, type, readonly, showReadOnlyText, ratingTextColor } =
+    const {ratingCount, type, readonly, showReadOnlyText, ratingTextColor} =
       this.props;
     const color = ratingTextColor || TYPES[type].color;
 
     return (
       <View style={styles.showRatingView}>
         <View style={styles.ratingView}>
-          <Text style={[styles.ratingText, { color }]}>Rating: </Text>
-          <Text style={[styles.currentRatingText, { color }]}>
+          <Text style={[styles.ratingText, {color}]}>Rating: </Text>
+          <Text style={[styles.currentRatingText, {color}]}>
             {this.getCurrentRating(this.state.value)}
           </Text>
-          <Text style={[styles.maxRatingText, { color }]}>/{ratingCount}</Text>
+          <Text style={[styles.maxRatingText, {color}]}>/{ratingCount}</Text>
         </View>
         <View>
           {readonly && showReadOnlyText && (
-            <Text style={[styles.readonlyLabel, { color }]}>(readonly)</Text>
+            <Text style={[styles.readonlyLabel, {color}]}>(readonly)</Text>
           )}
         </View>
       </View>
@@ -500,8 +502,8 @@ export default class SwipeRating extends Component<
               this.ratingRef = view;
             }}
           >
-            <Animated.View style={this.getPrimaryViewStyle()} />
-            <Animated.View style={this.getSecondaryViewStyle()} />
+            <Animated.View style={this.getPrimaryViewStyle()}/>
+            <Animated.View style={this.getSecondaryViewStyle()}/>
           </View>
           {this.renderRatings()}
         </View>
@@ -510,7 +512,7 @@ export default class SwipeRating extends Component<
   }
 
   componentWillUnmount() {
-    this.setState({ isComponentMounted: false });
+    this.setState({isComponentMounted: false});
   }
 }
 
