@@ -23,7 +23,7 @@ export type StarProps = {
   starSelectedInPosition?: ( number ) => void;
 };
 
-const Star: React.FunctionComponent<StarProps> = props => {
+const Star: React.FunctionComponent<StarProps> = ({starImage = STAR_IMAGE, selectedColor = "#f1c40f", unSelectedColor = "#BDC3C7", ...props}) => {
   const [selected, setSelected] = useState<boolean>( false );
   const springValue = new Animated.Value( 1 );
 
@@ -45,41 +45,32 @@ const Star: React.FunctionComponent<StarProps> = props => {
   };
 
   const {
-    starImage,
     fill,
     size,
-    selectedColor,
-    unSelectedColor,
     isDisabled,
     starStyle
   } = props;
 
   const starSource =
-    fill && selectedColor === null ? STAR_SELECTED_IMAGE : starImage;
+      fill && selectedColor === null ? STAR_SELECTED_IMAGE : starImage;
 
   return (
-    <TouchableOpacity activeOpacity={1} onPress={spring} disabled={isDisabled}>
-      <Animated.Image
-        source={starSource}
-        style={[
-          styles.starStyle,
-          {
-            tintColor: fill && selectedColor ? selectedColor : unSelectedColor,
-            width: size || STAR_SIZE,
-            height: size || STAR_SIZE,
-            transform: [{ scale: springValue }]
-          },
-          starStyle
-        ]}
-      />
-    </TouchableOpacity>
+      <TouchableOpacity activeOpacity={1} onPress={spring} disabled={isDisabled}>
+        <Animated.Image
+            source={starSource}
+            style={[
+              styles.starStyle,
+              {
+                tintColor: fill && selectedColor ? selectedColor : unSelectedColor,
+                width: size || STAR_SIZE,
+                height: size || STAR_SIZE,
+                transform: [{ scale: springValue }]
+              },
+              starStyle
+            ]}
+        />
+      </TouchableOpacity>
   );
-};
-
-Star.defaultProps = {
-  starImage: STAR_IMAGE,
-  selectedColor: "#f1c40f",
-  unSelectedColor: "#BDC3C7"
 };
 
 export default Star;
