@@ -73,12 +73,6 @@ const Star: React.FunctionComponent<StarProps> = ({starImage = STAR_IMAGE, selec
   );
 };
 
-Star.defaultProps = {
-  starImage: STAR_IMAGE,
-  selectedColor: "#f1c40f",
-  unSelectedColor: "#BDC3C7"
-};
-
 export default Star;
 
 const styles = StyleSheet.create( {
