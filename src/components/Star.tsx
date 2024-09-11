@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Animated,
@@ -21,16 +21,23 @@ export type StarProps = {
   starStyle?: StyleProp<ViewStyle>;
   position?: number;
   starSelectedInPosition?: ( number ) => void;
+  selectedPosition?: number;
 };
 
-const Star: React.FunctionComponent<StarProps> = ({starImage = STAR_IMAGE, selectedColor = "#f1c40f", unSelectedColor = "#BDC3C7", ...props}) => {
+const Star: React.FunctionComponent<StarProps> = ({starImage = STAR_IMAGE, selectedColor = "#f1c40f", unSelectedColor = "#BDC3C7", selectedPosition, ...props}) => {
   const [selected, setSelected] = useState<boolean>( false );
-  const springValue = new Animated.Value( 1 );
+  const [springValue, setSpringValue] = useState(new Animated.Value( 1 ));
+
+  useEffect(() => {
+    if (selectedPosition !== props.position) {
+      setSpringValue( new Animated.Value( 1 ) );
+    }
+  }, [selectedPosition]);
 
   const spring = () => {
     const { position, starSelectedInPosition } = props;
 
-    springValue.setValue( 1.2 );
+    setSpringValue(1.2);
 
     Animated.spring( springValue, {
       toValue: 1,

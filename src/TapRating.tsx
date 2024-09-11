@@ -167,6 +167,7 @@ const TapRating: React.FunctionComponent<TapRatingProps> =
         starSelectedInPosition={(value) => {
           starSelectedInPosition(value);
         }}
+        selectedPosition={position}
         fill={position >= index + 1}
         {...props}
       />
